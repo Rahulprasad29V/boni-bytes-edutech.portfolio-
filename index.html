@@ -2220,20 +2220,20 @@
     </button>
 
     <!-- ============================================
-    JAVASCRIPT - EMAILJS CONFIGURED
+    JAVASCRIPT - FULLY CONFIGURED WITH EMAILJS
     ============================================ -->
     <script>
         // ============================================
         // EMAILJS CONFIGURATION - YOUR CREDENTIALS
         // ============================================
         (function() {
-            // ✅ YOUR EMAILJS CREDENTIALS (Already configured)
+            // ✅ YOUR EMAILJS CREDENTIALS (All configured!)
             const EMAILJS_PUBLIC_KEY = 'MhS8ntxYnVe8Hk2dt';
             const EMAILJS_SERVICE_ID = 'service_gid6lki';
-            const EMAILJS_TEMPLATE_ID = 'template_s87o5an'; // ⚠️ REPLACE THIS with your Template ID
+            const EMAILJS_TEMPLATE_ID = 'template_s87o5an'; // ✅ Your Template ID
 
             // Initialize EmailJS with your Public Key
-            emailjs.init('MhS8ntxYnVe8Hk2dt';
+            emailjs.init(EMAILJS_PUBLIC_KEY);
 
             // Contact form handler
             const form = document.getElementById('contactForm');
@@ -2308,6 +2308,8 @@
                 };
 
                 console.log('📧 Sending email with params:', templateParams);
+                console.log('🔑 Service ID:', EMAILJS_SERVICE_ID);
+                console.log('📋 Template ID:', EMAILJS_TEMPLATE_ID);
 
                 emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
                     .then(function(response) {
@@ -2330,6 +2332,7 @@
                     })
                     .catch(function(error) {
                         console.error('❌ Failed to send email:', error);
+                        console.error('Error details:', JSON.stringify(error));
                         showToast('Failed to send message. Please try again.', 'error');
                         sendBtn.disabled = false;
                         sendBtn.innerHTML = '<span>Send Message <i class="fas fa-paper-plane"></i></span>';
@@ -2601,10 +2604,11 @@
 
             console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
             console.log('📧 Contact form configured with EmailJS');
-            console.log('✅ Public Key:', MhS8ntxYnVe8Hk2dt);
-            console.log('✅ Service ID:', service_gid6lki);
-            console.log('⚠️ Template ID:',template_s87o5an);
+            console.log('✅ Public Key:', EMAILJS_PUBLIC_KEY);
+            console.log('✅ Service ID:', EMAILJS_SERVICE_ID);
+            console.log('✅ Template ID:', EMAILJS_TEMPLATE_ID);
             console.log('📧 Emails will be sent to: rahulprasadveeramani29@gmail.com');
+            console.log('🎉 All configured! Ready to send emails.');
         })();
     </script>
 
