@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         /* ============================================
-                   COMPLETE CSS (same as previous)
+                   CSS VARIABLES & THEMES
                    ============================================ */
         :root {
             --primary: #2563EB;
@@ -44,6 +44,9 @@
             --glow-color: rgba(37, 99, 235, 0.15);
         }
 
+        /* ============================================
+                   RESET & BASE
+                   ============================================ */
         * {
             margin: 0;
             padding: 0;
@@ -720,48 +723,6 @@
         section {
             padding: 100px 0;
             position: relative;
-        }
-
-        /* ============================================
-                   TRUSTED COMPANIES
-                   ============================================ */
-        .trusted {
-            padding: 50px 0;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .trusted-text {
-            text-align: center;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-
-        .trusted-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 48px;
-            flex-wrap: wrap;
-            opacity: 0.5;
-        }
-
-        .trusted-logos span {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            letter-spacing: -0.5px;
-            transition: var(--transition);
-        }
-
-        .trusted-logos span:hover {
-            opacity: 1;
-            color: var(--primary);
-            transform: scale(1.05);
         }
 
         /* ============================================
@@ -1815,22 +1776,6 @@
     </section>
 
     <!-- ============================================
-    TRUSTED COMPANIES
-    ============================================ -->
-    <section class="trusted">
-        <div class="container">
-            <p class="trusted-text">Trusted by innovative companies</p>
-            <div class="trusted-logos">
-                <span>Stripe</span>
-                <span>Vercel</span>
-                <span>Linear</span>
-                <span>Framer</span>
-                <span>Apple</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================
     SERVICES SECTION
     ============================================ -->
     <section class="services" id="services">
@@ -2126,7 +2071,7 @@
     </section>
 
     <!-- ============================================
-    CONTACT SECTION (WITH WORKING FORM)
+    CONTACT SECTION
     ============================================ -->
     <section class="contact" id="contact">
         <div class="container">
@@ -2275,15 +2220,14 @@
     </button>
 
     <!-- ============================================
-    JAVASCRIPT - COMPLETE WITH EMAILJS
+    JAVASCRIPT
     ============================================ -->
     <script>
         // ============================================
-        // EMAILJS CONFIGURATION - UPDATE THESE VALUES
+        // EMAILJS CONFIGURATION
         // ============================================
         (function() {
             // 🔑 IMPORTANT: Replace these with your actual EmailJS credentials
-            // Get them from: https://www.emailjs.com/
             const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your public key
             const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your service ID
             const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your template ID
@@ -2296,21 +2240,16 @@
             const sendBtn = document.getElementById('sendBtn');
             const formSuccess = document.getElementById('formSuccess');
 
-            // Get form elements
             const nameInput = document.getElementById('userName');
             const emailInput = document.getElementById('userEmail');
             const subjectInput = document.getElementById('userSubject');
             const messageInput = document.getElementById('userMessage');
 
-            // Error elements
             const nameError = document.getElementById('nameError');
             const emailError = document.getElementById('emailError');
             const subjectError = document.getElementById('subjectError');
             const messageError = document.getElementById('messageError');
 
-            // ============================================
-            // VALIDATION FUNCTIONS
-            // ============================================
             function validateField(input, errorEl, condition) {
                 if (!condition) {
                     input.classList.add('error');
@@ -2325,7 +2264,6 @@
                 }
             }
 
-            // Real-time validation
             nameInput.addEventListener('input', function() {
                 validateField(this, nameError, this.value.trim().length >= 2);
             });
@@ -2343,18 +2281,14 @@
                 validateField(this, messageError, this.value.trim().length >= 10);
             });
 
-            // ============================================
-            // FORM SUBMISSION
-            // ============================================
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
-                // Validate all fields
                 const isNameValid = validateField(nameInput, nameError, nameInput.value.trim().length >= 2);
                 const isEmailValid = validateField(emailInput, emailError, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput
                     .value));
                 const isSubjectValid = validateField(subjectInput, subjectError, subjectInput.value.trim().length >=
-                3);
+                    3);
                 const isMessageValid = validateField(messageInput, messageError, messageInput.value.trim().length >=
                     10);
 
@@ -2363,11 +2297,9 @@
                     return;
                 }
 
-                // Disable button and show loading
                 sendBtn.disabled = true;
                 sendBtn.innerHTML = '<span>Sending... <i class="fas fa-spinner fa-spin"></i></span>';
 
-                // Prepare template parameters (matches your EmailJS template)
                 const templateParams = {
                     name: nameInput.value.trim(),
                     email: emailInput.value.trim(),
@@ -2375,26 +2307,21 @@
                     message: messageInput.value.trim()
                 };
 
-                // Send email using EmailJS
                 emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
                     .then(function(response) {
-                        console.log('✅ Email sent successfully!', response.status, response.text);
-                        // Show success
+                        console.log('✅ Email sent successfully!');
                         form.style.display = 'none';
                         formSuccess.classList.add('show');
                         showToast('🎉 Message sent successfully!', 'success');
 
-                        // Reset form after 5 seconds
                         setTimeout(() => {
                             form.reset();
                             form.style.display = 'flex';
                             formSuccess.classList.remove('show');
-                            // Reset input styles
                             document.querySelectorAll('.contact-form input, .contact-form textarea')
                                 .forEach(el => {
                                     el.classList.remove('success', 'error');
                                 });
-                            // Reset button
                             sendBtn.disabled = false;
                             sendBtn.innerHTML = '<span>Send Message <i class="fas fa-paper-plane"></i></span>';
                         }, 5000);
@@ -2402,20 +2329,15 @@
                     .catch(function(error) {
                         console.error('❌ Failed to send email:', error);
                         showToast('Failed to send message. Please try again.', 'error');
-                        // Reset button
                         sendBtn.disabled = false;
                         sendBtn.innerHTML = '<span>Send Message <i class="fas fa-paper-plane"></i></span>';
                     });
             });
 
-            // ============================================
-            // TOAST NOTIFICATION
-            // ============================================
             function showToast(message, type = 'info') {
                 const toast = document.getElementById('toast');
                 toast.textContent = message;
                 toast.className = 'toast ' + type + ' show';
-
                 setTimeout(() => {
                     toast.classList.remove('show');
                 }, 4000);
@@ -2431,7 +2353,7 @@
             });
 
             // ============================================
-            // PARTICLES SYSTEM
+            // PARTICLES
             // ============================================
             const canvas = document.getElementById('particles-canvas');
             const ctx = canvas.getContext('2d');
@@ -2503,15 +2425,6 @@
                 requestAnimationFrame(animateParticles);
             }
             animateParticles();
-
-            // ============================================
-            // CURSOR GLOW
-            // ============================================
-            const cursorGlow = document.getElementById('cursor-glow');
-            document.addEventListener('mousemove', (e) => {
-                cursorGlow.style.left = e.clientX + 'px';
-                cursorGlow.style.top = e.clientY + 'px';
-            });
 
             // ============================================
             // NAVBAR SCROLL
@@ -2686,9 +2599,7 @@
 
             console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
             console.log('📧 Contact form is ready to send emails via EmailJS!');
-            console.log('⚙️ Make sure to update EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, and EMAILJS_TEMPLATE_ID');
         })();
     </script>
-
 </body>
 </html>
