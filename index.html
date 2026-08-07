@@ -6,6 +6,8 @@
     <title>Boni Bytes Edutech – Premium Software Agency</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         /* ============================================
                    CSS VARIABLES & THEMES
@@ -25,6 +27,8 @@
             --shadow-color: rgba(37, 99, 235, 0.15);
             --glow-color: rgba(37, 99, 235, 0.3);
             --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --success: #10B981;
+            --error: #EF4444;
         }
 
         [data-theme="light"] {
@@ -377,7 +381,7 @@
             display: inline-block;
             padding: 14px 36px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: var(--white);
+            color: white;
             border-radius: 50px;
             font-weight: 600;
             font-size: 15px;
@@ -412,6 +416,11 @@
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 40px var(--glow-color);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .btn-secondary {
@@ -968,7 +977,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--white);
+            color: white;
             font-weight: 700;
             font-size: 18px;
         }
@@ -1161,8 +1170,13 @@
             gap: 20px;
         }
 
+        .form-group {
+            position: relative;
+        }
+
         .contact-form input,
         .contact-form textarea {
+            width: 100%;
             padding: 16px 20px;
             border-radius: 16px;
             border: 1px solid var(--border-color);
@@ -1183,6 +1197,48 @@
         .contact-form textarea {
             min-height: 150px;
             resize: vertical;
+        }
+
+        .contact-form input.error,
+        .contact-form textarea.error {
+            border-color: var(--error);
+        }
+
+        .contact-form input.success,
+        .contact-form textarea.success {
+            border-color: var(--success);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .form-success {
+            display: none;
+            padding: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 16px;
+            color: var(--success);
+            text-align: center;
+            margin-top: 16px;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .form-success i {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
         }
 
         .contact-info {
@@ -1370,7 +1426,7 @@
 
         .footer-social a:hover {
             background: var(--primary);
-            color: var(--white);
+            color: white;
             transform: translateY(-3px);
             border-color: var(--primary);
         }
@@ -1387,7 +1443,7 @@
             height: 56px;
             border-radius: 50%;
             background: #25D366;
-            color: var(--white);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1448,6 +1504,40 @@
             width: 0%;
             transition: width 0.1s;
             box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        /* ============================================
+                   TOAST NOTIFICATION
+                   ============================================ */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            z-index: 99999;
+            transform: translateX(400px);
+            transition: transform 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            background: var(--success);
+        }
+
+        .toast.error {
+            background: var(--error);
+        }
+
+        .toast.info {
+            background: var(--primary);
         }
 
         /* ============================================
@@ -1586,6 +1676,15 @@
             .testimonials-grid {
                 grid-template-columns: 1fr;
             }
+            .toast {
+                top: 80px;
+                right: 16px;
+                left: 16px;
+                transform: translateY(-100px);
+            }
+            .toast.show {
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -1613,6 +1712,11 @@
     PARTICLES CANVAS
     ============================================ -->
     <canvas id="particles-canvas"></canvas>
+
+    <!-- ============================================
+    TOAST NOTIFICATION
+    ============================================ -->
+    <div class="toast" id="toast"></div>
 
     <!-- ============================================
     NAVIGATION
@@ -1686,19 +1790,19 @@
                     </div>
                     <div class="hero-stats">
                         <div>
-                            <span class="stat-number" data-count="10">0</span>
+                            <span class="stat-number" data-count="120">0</span>
                             <span class="stat-label">Projects</span>
                         </div>
                         <div>
-                            <span class="stat-number" data-count="25">0</span>
+                            <span class="stat-number" data-count="80">0</span>
                             <span class="stat-label">Clients</span>
                         </div>
                         <div>
-                            <span class="stat-number" data-count="80">0</span>
+                            <span class="stat-number" data-count="99">0</span>
                             <span class="stat-label">Support</span>
                         </div>
                         <div>
-                            <span class="stat-number" data-count="4">0</span>
+                            <span class="stat-number" data-count="12">0</span>
                             <span class="stat-label">Experience</span>
                         </div>
                     </div>
@@ -1932,7 +2036,7 @@
             <div class="pricing-grid">
                 <div class="pricing-card">
                     <div class="pricing-name">Basic</div>
-                    <div class="pricing-price">₹6000<span></span></div>
+                    <div class="pricing-price">$0 <span>/mo</span></div>
                     <ul class="pricing-features">
                         <li>Basic website</li>
                         <li>5 pages</li>
@@ -1943,7 +2047,7 @@
 
                 <div class="pricing-card featured">
                     <div class="pricing-name">Professional</div>
-                    <div class="pricing-price">₹10000<span></span></div>
+                    <div class="pricing-price">$49 <span>/mo</span></div>
                     <ul class="pricing-features">
                         <li>Full website</li>
                         <li>Unlimited pages</li>
@@ -1955,7 +2059,7 @@
 
                 <div class="pricing-card">
                     <div class="pricing-name">Enterprise</div>
-                    <div class="pricing-price">₹15000<span></span></div>
+                    <div class="pricing-price">$99 <span>/mo</span></div>
                     <ul class="pricing-features">
                         <li>Custom solutions</li>
                         <li>Dedicated team</li>
@@ -2040,12 +2144,31 @@
             </div>
 
             <div class="contact-grid">
-                <form class="contact-form">
-                    <input type="text" placeholder="Your Name" required />
-                    <input type="email" placeholder="Your Email" required />
-                    <input type="text" placeholder="Subject" />
-                    <textarea placeholder="Tell us about your project..."></textarea>
-                    <button type="submit" class="btn-primary"><span>Send Message</span></button>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="userName" placeholder="Your Name" required />
+                        <div class="error-message" id="nameError">Please enter your name</div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="userEmail" placeholder="Your Email" required />
+                        <div class="error-message" id="emailError">Please enter a valid email</div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="userSubject" placeholder="Subject" required />
+                        <div class="error-message" id="subjectError">Please enter a subject</div>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="userMessage" placeholder="Tell us about your project..." required></textarea>
+                        <div class="error-message" id="messageError">Please enter your message</div>
+                    </div>
+                    <button type="submit" class="btn-primary" id="sendBtn">
+                        <span>Send Message <i class="fas fa-paper-plane"></i></span>
+                    </button>
+                    <div class="form-success" id="formSuccess">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Message Sent!</h3>
+                        <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
+                    </div>
                 </form>
 
                 <div class="contact-info">
@@ -2053,21 +2176,21 @@
                         <div class="contact-item-icon">📍</div>
                         <div class="contact-item-text">
                             <h4>Location</h4>
-                            <p>Thiruvannamalai</p>
+                            <p>123 Tech Park, Silicon Valley</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-item-icon">✉️</div>
                         <div class="contact-item-text">
                             <h4>Email</h4>
-                            <p>bonibytesedutech.s@gmail.com</p>
+                            <p>hello@bonibytes.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-item-icon">📞</div>
                         <div class="contact-item-text">
                             <h4>Phone</h4>
-                            <p>9585996109</p>
+                            <p>+1 (555) 123-4567</p>
                         </div>
                     </div>
                 </div>
@@ -2146,7 +2269,7 @@
     <!-- ============================================
     FLOATING BUTTONS
     ============================================ -->
-    <a href="https://wa.me/9585996109" target="_blank" class="floating-whatsapp">
+    <a href="https://wa.me/1234567890" target="_blank" class="floating-whatsapp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -2159,330 +2282,461 @@
     ============================================ -->
     <script>
         // ============================================
-        // LOADING SCREEN
+        // EMAILJS CONFIGURATION
         // ============================================
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 1000);
-        });
+        (function() {
+            // Replace these with your actual EmailJS credentials
+            // Get them from: https://www.emailjs.com/
+            const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your public key
+            const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your service ID
+            const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your template ID
 
-        // ============================================
-        // PARTICLES
-        // ============================================
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
+            // Initialize EmailJS
+            emailjs.init(EMAILJS_PUBLIC_KEY);
 
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+            // Contact form handler
+            const form = document.getElementById('contactForm');
+            const sendBtn = document.getElementById('sendBtn');
+            const formSuccess = document.getElementById('formSuccess');
 
-        let particles = [];
-        const particleCount = 80;
+            // Get form elements
+            const nameInput = document.getElementById('userName');
+            const emailInput = document.getElementById('userEmail');
+            const subjectInput = document.getElementById('userSubject');
+            const messageInput = document.getElementById('userMessage');
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5 + 0.2;
+            // Error elements
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const subjectError = document.getElementById('subjectError');
+            const messageError = document.getElementById('messageError');
+
+            // Validate individual fields
+            function validateField(input, errorEl, condition) {
+                if (!condition) {
+                    input.classList.add('error');
+                    input.classList.remove('success');
+                    errorEl.classList.add('show');
+                    return false;
+                } else {
+                    input.classList.remove('error');
+                    input.classList.add('success');
+                    errorEl.classList.remove('show');
+                    return true;
+                }
             }
 
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
+            // Real-time validation
+            nameInput.addEventListener('input', function() {
+                validateField(this, nameError, this.value.trim().length >= 2);
+            });
 
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
+            emailInput.addEventListener('input', function() {
+                const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.value);
+                validateField(this, emailError, isValid);
+            });
+
+            subjectInput.addEventListener('input', function() {
+                validateField(this, subjectError, this.value.trim().length >= 3);
+            });
+
+            messageInput.addEventListener('input', function() {
+                validateField(this, messageError, this.value.trim().length >= 10);
+            });
+
+            // Form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Validate all fields
+                const isNameValid = validateField(nameInput, nameError, nameInput.value.trim().length >= 2);
+                const isEmailValid = validateField(emailInput, emailError, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput
+                    .value));
+                const isSubjectValid = validateField(subjectInput, subjectError, subjectInput.value.trim().length >= 3);
+                const isMessageValid = validateField(messageInput, messageError, messageInput.value.trim().length >=
+                10);
+
+                if (!isNameValid || !isEmailValid || !isSubjectValid || !isMessageValid) {
+                    showToast('Please fill all fields correctly', 'error');
+                    return;
+                }
+
+                // Disable button and show loading
+                sendBtn.disabled = true;
+                sendBtn.innerHTML = '<span>Sending... <i class="fas fa-spinner fa-spin"></i></span>';
+
+                // Prepare template parameters
+                const templateParams = {
+                    from_name: nameInput.value.trim(),
+                    from_email: emailInput.value.trim(),
+                    subject: subjectInput.value.trim(),
+                    message: messageInput.value.trim(),
+                    to_email: 'hello@bonibytes.com'
+                };
+
+                // Send email using EmailJS
+                emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        // Show success
+                        form.style.display = 'none';
+                        formSuccess.classList.add('show');
+                        showToast('Message sent successfully! 🎉', 'success');
+                        // Reset form after 5 seconds
+                        setTimeout(() => {
+                            form.reset();
+                            form.style.display = 'flex';
+                            formSuccess.classList.remove('show');
+                            // Reset input styles
+                            document.querySelectorAll('.contact-form input, .contact-form textarea')
+                                .forEach(el => {
+                                    el.classList.remove('success', 'error');
+                                });
+                            // Reset button
+                            sendBtn.disabled = false;
+                            sendBtn.innerHTML = '<span>Send Message <i class="fas fa-paper-plane"></i></span>';
+                        }, 5000);
+                    })
+                    .catch(function(error) {
+                        console.error('FAILED...', error);
+                        showToast('Failed to send message. Please try again.', 'error');
+                        // Reset button
+                        sendBtn.disabled = false;
+                        sendBtn.innerHTML = '<span>Send Message <i class="fas fa-paper-plane"></i></span>';
+                    });
+            });
+
+            // ============================================
+            // TOAST NOTIFICATION
+            // ============================================
+            function showToast(message, type = 'info') {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.className = 'toast ' + type + ' show';
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 4000);
             }
 
-            draw() {
-                ctx.fillStyle = `rgba(37, 99, 235, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+            // ============================================
+            // LOADING SCREEN
+            // ============================================
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    document.getElementById('loader').classList.add('hidden');
+                }, 1000);
+            });
+
+            // ============================================
+            // PARTICLES
+            // ============================================
+            const canvas = document.getElementById('particles-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
             }
-        }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
 
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
+            let particles = [];
+            const particleCount = 80;
 
-        function connectParticles() {
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.size = Math.random() * 2 + 1;
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.speedY = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                }
 
-                    if (distance < 150) {
-                        ctx.strokeStyle = `rgba(37, 99, 235, ${0.1 * (1 - distance / 150)})`;
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+
+                    if (this.x > canvas.width) this.x = 0;
+                    if (this.x < 0) this.x = canvas.width;
+                    if (this.y > canvas.height) this.y = 0;
+                    if (this.y < 0) this.y = canvas.height;
+                }
+
+                draw() {
+                    ctx.fillStyle = `rgba(37, 99, 235, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+
+            function connectParticles() {
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < 150) {
+                            ctx.strokeStyle = `rgba(37, 99, 235, ${0.1 * (1 - distance / 150)})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
                     }
                 }
             }
-        }
 
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            function animateParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-
-            connectParticles();
-            requestAnimationFrame(animateParticles);
-        }
-
-        animateParticles();
-
-        // ============================================
-        // CURSOR GLOW
-        // ============================================
-        const cursorGlow = document.getElementById('cursor-glow');
-
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX + 'px';
-            cursorGlow.style.top = e.clientY + 'px';
-        });
-
-        document.addEventListener('mouseenter', () => {
-            cursorGlow.style.opacity = '1';
-        });
-
-        document.addEventListener('mouseleave', () => {
-            cursorGlow.style.opacity = '0';
-        });
-
-        // Enlarge on hover over buttons/cards
-        document.querySelectorAll('.btn-primary, .btn-secondary, .service-card, .project-card, .pricing-card')
-        .forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursorGlow.style.width = '400px';
-                cursorGlow.style.height = '400px';
-                cursorGlow.style.opacity = '0.15';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursorGlow.style.width = '300px';
-                cursorGlow.style.height = '300px';
-                cursorGlow.style.opacity = '0.5';
-            });
-        });
-
-        // ============================================
-        // NAVBAR SCROLL
-        // ============================================
-        const navbar = document.getElementById('navbar');
-
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 80) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // ============================================
-        // SCROLL PROGRESS
-        // ============================================
-        const scrollProgress = document.getElementById('scrollProgress');
-
-        window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (scrollTop / docHeight) * 100;
-            scrollProgress.style.width = progress + '%';
-        });
-
-        // ============================================
-        // MOBILE MENU
-        // ============================================
-        const hamburger = document.getElementById('hamburger');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-        });
-
-        document.querySelectorAll('.mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-        });
-
-        // ============================================
-        // THEME TOGGLE
-        // ============================================
-        const themeToggle = document.getElementById('themeToggle');
-        const html = document.documentElement;
-
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-            html.setAttribute('data-theme', newTheme);
-            themeToggle.innerHTML = newTheme === 'dark' ?
-                '<i class="fas fa-moon"></i>' :
-                '<i class="fas fa-sun"></i>';
-
-            // Update particle colors
-            document.querySelectorAll('#particles-canvas').forEach(c => {
-                c.style.color = newTheme === 'dark' ? 'rgba(37, 99, 235, 0.5)' : 'rgba(37, 99, 235, 0.3)';
-            });
-
-            // Store preference
-            localStorage.setItem('theme', newTheme);
-        });
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            html.setAttribute('data-theme', savedTheme);
-            themeToggle.innerHTML = savedTheme === 'dark' ?
-                '<i class="fas fa-moon"></i>' :
-                '<i class="fas fa-sun"></i>';
-        }
-
-        // ============================================
-        // BACK TO TOP
-        // ============================================
-        const backToTop = document.getElementById('backToTop');
-
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 500) {
-                backToTop.classList.add('visible');
-            } else {
-                backToTop.classList.remove('visible');
-            }
-        });
-
-        backToTop.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // ============================================
-        // SMOOTH SCROLL
-        // ============================================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    e.preventDefault();
-                    const navHeight = document.querySelector('.navbar').offsetHeight;
-                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset -
-                        navHeight;
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // ============================================
-        // FAQ ACCORDION
-        // ============================================
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const item = button.parentElement;
-                const isActive = item.classList.contains('active');
-
-                // Close all
-                document.querySelectorAll('.faq-item').forEach(faq => {
-                    faq.classList.remove('active');
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
                 });
 
-                // Toggle current
-                if (!isActive) {
-                    item.classList.add('active');
+                connectParticles();
+                requestAnimationFrame(animateParticles);
+            }
+
+            animateParticles();
+
+            // ============================================
+            // CURSOR GLOW
+            // ============================================
+            const cursorGlow = document.getElementById('cursor-glow');
+
+            document.addEventListener('mousemove', (e) => {
+                cursorGlow.style.left = e.clientX + 'px';
+                cursorGlow.style.top = e.clientY + 'px';
+            });
+
+            document.addEventListener('mouseenter', () => {
+                cursorGlow.style.opacity = '1';
+            });
+
+            document.addEventListener('mouseleave', () => {
+                cursorGlow.style.opacity = '0';
+            });
+
+            document.querySelectorAll('.btn-primary, .btn-secondary, .service-card, .project-card, .pricing-card')
+                .forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursorGlow.style.width = '400px';
+                        cursorGlow.style.height = '400px';
+                        cursorGlow.style.opacity = '0.15';
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursorGlow.style.width = '300px';
+                        cursorGlow.style.height = '300px';
+                        cursorGlow.style.opacity = '0.5';
+                    });
+                });
+
+            // ============================================
+            // NAVBAR SCROLL
+            // ============================================
+            const navbar = document.getElementById('navbar');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 80) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
                 }
             });
-        });
 
-        // ============================================
-        // COUNTER ANIMATION
-        // ============================================
-        const statNumbers = document.querySelectorAll('.stat-number');
+            // ============================================
+            // SCROLL PROGRESS
+            // ============================================
+            const scrollProgress = document.getElementById('scrollProgress');
 
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    const target = parseInt(el.getAttribute('data-count'));
-                    let current = 0;
-                    const increment = target / 40;
-                    const duration = 2000;
-                    const stepTime = duration / 40;
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = (scrollTop / docHeight) * 100;
+                scrollProgress.style.width = progress + '%';
+            });
 
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= target) {
-                            el.textContent = target + '+';
-                            clearInterval(timer);
-                        } else {
-                            el.textContent = Math.floor(current) + '+';
-                        }
-                    }, stepTime);
+            // ============================================
+            // MOBILE MENU
+            // ============================================
+            const hamburger = document.getElementById('hamburger');
+            const mobileMenu = document.getElementById('mobileMenu');
 
-                    counterObserver.unobserve(el);
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+
+            // ============================================
+            // THEME TOGGLE
+            // ============================================
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                html.setAttribute('data-theme', newTheme);
+                themeToggle.innerHTML = newTheme === 'dark' ?
+                    '<i class="fas fa-moon"></i>' :
+                    '<i class="fas fa-sun"></i>';
+
+                localStorage.setItem('theme', newTheme);
+            });
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                html.setAttribute('data-theme', savedTheme);
+                themeToggle.innerHTML = savedTheme === 'dark' ?
+                    '<i class="fas fa-moon"></i>' :
+                    '<i class="fas fa-sun"></i>';
+            }
+
+            // ============================================
+            // BACK TO TOP
+            // ============================================
+            const backToTop = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 500) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
                 }
             });
-        }, { threshold: 0.5 });
 
-        statNumbers.forEach(el => {
-            el.textContent = '0';
-            counterObserver.observe(el);
-        });
-
-        // ============================================
-        // SCROLL ANIMATIONS
-        // ============================================
-        const animateElements = document.querySelectorAll(
-            '.service-card, .project-card, .testimonial-card, .pricing-card'
-        );
-
-        const scrollObserver = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }, index * 100);
-                    scrollObserver.unobserve(entry.target);
-                }
+            backToTop.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        animateElements.forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            scrollObserver.observe(el);
-        });
+            // ============================================
+            // SMOOTH SCROLL
+            // ============================================
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
 
-        console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
-        console.log('💡 Built with ❤️ by Boni Bytes Team');
-        console.log('🌙 Dark Mode enabled');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        const navHeight = document.querySelector('.navbar').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset -
+                            navHeight;
+
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // ============================================
+            // FAQ ACCORDION
+            // ============================================
+            document.querySelectorAll('.faq-question').forEach(button => {
+                button.addEventListener('click', () => {
+                    const item = button.parentElement;
+                    const isActive = item.classList.contains('active');
+
+                    document.querySelectorAll('.faq-item').forEach(faq => {
+                        faq.classList.remove('active');
+                    });
+
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+
+            // ============================================
+            // COUNTER ANIMATION
+            // ============================================
+            const statNumbers = document.querySelectorAll('.stat-number');
+
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.getAttribute('data-count'));
+                        let current = 0;
+                        const increment = target / 40;
+                        const duration = 2000;
+                        const stepTime = duration / 40;
+
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                el.textContent = target + '+';
+                                clearInterval(timer);
+                            } else {
+                                el.textContent = Math.floor(current) + '+';
+                            }
+                        }, stepTime);
+
+                        counterObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statNumbers.forEach(el => {
+                el.textContent = '0';
+                counterObserver.observe(el);
+            });
+
+            // ============================================
+            // SCROLL ANIMATIONS
+            // ============================================
+            const animateElements = document.querySelectorAll(
+                '.service-card, .project-card, .testimonial-card, .pricing-card'
+            );
+
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                        scrollObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            animateElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                scrollObserver.observe(el);
+            });
+
+            console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
+            console.log('💡 Built with ❤️ by Boni Bytes Team');
+            console.log('📧 Contact form is ready to send emails!');
+            console.log('⚙️ Configure EmailJS credentials in the script section');
+        })();
     </script>
+
 </body>
 </html>
