@@ -45,7 +45,7 @@
         }
 
         /* ============================================
-                   RESET & BASE
+                   REST OF THE CSS (previous styles remain the same)
                    ============================================ */
         * {
             margin: 0;
@@ -810,7 +810,7 @@
         }
 
         /* ============================================
-                   PROJECTS
+                   PROJECTS (UPDATED WITH DEMO PROJECTS)
                    ============================================ */
         .projects-grid {
             display: grid;
@@ -825,36 +825,55 @@
             transition: var(--transition);
             border: 1px solid var(--border-color);
             position: relative;
+            cursor: pointer;
         }
 
         .project-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px);
             border-color: var(--primary);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         .project-image {
-            height: 240px;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(147, 51, 234, 0.1));
+            height: 220px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
+            font-size: 50px;
             position: relative;
             overflow: hidden;
         }
 
-        .project-image::after {
-            content: '';
+        .project-image .project-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(0deg, var(--bg-card), transparent 60%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
             transition: var(--transition);
         }
 
-        .project-card:hover .project-image::after {
-            opacity: 0.5;
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-overlay .btn-view {
+            padding: 10px 28px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .project-overlay .btn-view:hover {
+            transform: scale(1.05);
         }
 
         .project-info {
@@ -873,16 +892,140 @@
             font-weight: 500;
         }
 
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
         .project-tag {
             display: inline-block;
             padding: 4px 14px;
             background: rgba(37, 99, 235, 0.1);
             color: var(--primary);
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-            margin-top: 10px;
             border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+
+        /* Project detail modal */
+        .project-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .project-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-modal-content {
+            background: var(--bg-card);
+            border-radius: 24px;
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .project-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 28px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .project-modal-close:hover {
+            transform: rotate(90deg);
+            color: var(--primary);
+        }
+
+        .project-modal-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .project-modal h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .project-modal .project-meta {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .project-modal .project-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .project-modal .project-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .project-modal .detail-item {
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .project-modal .detail-item h4 {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .project-modal .detail-item p {
+            font-size: 14px;
+            margin-top: 4px;
+            color: var(--text-primary);
+        }
+
+        .project-modal .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .project-modal .tech-tag {
+            padding: 4px 14px;
+            background: rgba(37, 99, 235, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
         }
 
         /* ============================================
@@ -1499,6 +1642,41 @@
         }
 
         /* ============================================
+                   FILTER BUTTONS
+                   ============================================ */
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+        }
+
+        /* ============================================
                    RESPONSIVE
                    ============================================ */
         @media (max-width: 1024px) {
@@ -1514,6 +1692,13 @@
             .contact-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
+            }
+            .project-modal-content {
+                margin: 20px;
+                padding: 30px;
+            }
+            .project-modal .project-details {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1607,6 +1792,20 @@
             .nav-actions .nav-cta {
                 display: none;
             }
+            .project-modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+            .project-modal .project-details {
+                grid-template-columns: 1fr;
+            }
+            .filter-buttons {
+                gap: 8px;
+            }
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1675,6 +1874,43 @@
     TOAST NOTIFICATION
     ============================================ -->
     <div class="toast" id="toast"></div>
+
+    <!-- ============================================
+    PROJECT MODAL
+    ============================================ -->
+    <div class="project-modal" id="projectModal">
+        <div class="project-modal-content">
+            <button class="project-modal-close" id="modalClose">&times;</button>
+            <div class="project-modal-image" id="modalImage">🏥</div>
+            <h2 id="modalTitle">Project Title</h2>
+            <p class="project-meta" id="modalMeta">Category • Client</p>
+            <p class="project-description" id="modalDescription">Project description goes here.</p>
+            <div class="project-details">
+                <div class="detail-item">
+                    <h4>Problem</h4>
+                    <p id="modalProblem">The problem we solved</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Solution</h4>
+                    <p id="modalSolution">Our solution approach</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Results</h4>
+                    <p id="modalResults">The outcomes achieved</p>
+                </div>
+                <div class="detail-item">
+                    <h4>Client</h4>
+                    <p id="modalClient">Client name</p>
+                </div>
+            </div>
+            <div class="project-tech" id="modalTech">
+                <span class="tech-tag">Next.js</span>
+                <span class="tech-tag">React</span>
+                <span class="tech-tag">Node.js</span>
+            </div>
+            <a href="#contact" class="btn-primary"><span>Get a Similar Project</span></a>
+        </div>
+    </div>
 
     <!-- ============================================
     NAVIGATION
@@ -1832,67 +2068,257 @@
     </section>
 
     <!-- ============================================
-    PROJECTS SECTION
+    PROJECTS SECTION - DEMO PROJECTS
     ============================================ -->
     <section class="projects" id="projects">
         <div class="container">
             <div class="section-header">
                 <span class="section-label">Portfolio</span>
                 <h2 class="section-title">
-                    Featured <span class="highlight">Projects</span>
+                    Our <span class="highlight">Projects</span>
                 </h2>
                 <p class="section-subtitle">
-                    Some of the amazing work we've delivered for our clients.
+                    Explore our latest work across various industries and technologies.
                 </p>
             </div>
 
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">🏥</div>
+            <!-- Filter Buttons -->
+            <div class="filter-buttons" id="filterButtons">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="web">Websites</button>
+                <button class="filter-btn" data-filter="crm">CRM</button>
+                <button class="filter-btn" data-filter="healthcare">Healthcare</button>
+                <button class="filter-btn" data-filter="education">Education</button>
+                <button class="filter-btn" data-filter="ai">AI & Automation</button>
+                <button class="filter-btn" data-filter="mobile">Mobile Apps</button>
+            </div>
+
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Project 1: Dental Clinic CRM -->
+                <div class="project-card" data-category="crm healthcare">
+                    <div class="project-image" style="background: linear-gradient(135deg, #1a472a, #2d8f5e);">
+                        🦷
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('dental')">View Details</button>
+                        </div>
+                    </div>
                     <div class="project-info">
                         <h3>Dental Clinic CRM</h3>
                         <p>Healthcare • CRM</p>
-                        <span class="project-tag">Full-stack</span>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
-                    <div class="project-image">🏫</div>
+
+                <!-- Project 2: School ERP System -->
+                <div class="project-card" data-category="education crm">
+                    <div class="project-image" style="background: linear-gradient(135deg, #1a237e, #3949ab);">
+                        🏫
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('school')">View Details</button>
+                        </div>
+                    </div>
                     <div class="project-info">
                         <h3>School ERP System</h3>
                         <p>Education • ERP</p>
-                        <span class="project-tag">Enterprise</span>
+                        <div class="project-tags">
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">PostgreSQL</span>
+                            <span class="project-tag">Tailwind</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
-                    <div class="project-image">💬</div>
+
+                <!-- Project 3: AI Support Chatbot -->
+                <div class="project-card" data-category="ai">
+                    <div class="project-image" style="background: linear-gradient(135deg, #4a148c, #7b1fa2);">
+                        🤖
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('chatbot')">View Details</button>
+                        </div>
+                    </div>
                     <div class="project-info">
                         <h3>AI Support Chatbot</h3>
                         <p>AI • Automation</p>
-                        <span class="project-tag">AI/ML</span>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">OpenAI</span>
+                            <span class="project-tag">FastAPI</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
-                    <div class="project-image">📦</div>
+
+                <!-- Project 4: Restaurant POS System -->
+                <div class="project-card" data-category="web">
+                    <div class="project-image" style="background: linear-gradient(135deg, #bf360c, #e65100);">
+                        🍽️
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('pos')">View Details</button>
+                        </div>
+                    </div>
                     <div class="project-info">
                         <h3>Restaurant POS System</h3>
                         <p>Business • POS</p>
-                        <span class="project-tag">Full-stack</span>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Firebase</span>
+                            <span class="project-tag">PWA</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
-                    <div class="project-image">💼</div>
+
+                <!-- Project 5: Internship Portal -->
+                <div class="project-card" data-category="education web">
+                    <div class="project-image" style="background: linear-gradient(135deg, #00695c, #00897b);">
+                        💼
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('internship')">View Details</button>
+                        </div>
+                    </div>
                     <div class="project-info">
                         <h3>Internship Portal</h3>
                         <p>Education • Platform</p>
-                        <span class="project-tag">Web App</span>
+                        <div class="project-tags">
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">Prisma</span>
+                            <span class="project-tag">Stripe</span>
+                        </div>
                     </div>
                 </div>
-                <div class="project-card">
-                    <div class="project-image">📊</div>
+
+                <!-- Project 6: Healthcare Dashboard -->
+                <div class="project-card" data-category="healthcare ai">
+                    <div class="project-image" style="background: linear-gradient(135deg, #1b5e20, #388e3c);">
+                        📊
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('healthcare')">View Details</button>
+                        </div>
+                    </div>
                     <div class="project-info">
                         <h3>Healthcare Dashboard</h3>
                         <p>Healthcare • Analytics</p>
-                        <span class="project-tag">Data Viz</span>
+                        <div class="project-tags">
+                            <span class="project-tag">D3.js</span>
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">AI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 7: E-Commerce Platform -->
+                <div class="project-card" data-category="web mobile">
+                    <div class="project-image" style="background: linear-gradient(135deg, #0d47a1, #1565c0);">
+                        🛒
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('ecommerce')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>E-Commerce Platform</h3>
+                        <p>Web • Mobile</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">Stripe</span>
+                            <span class="project-tag">React Native</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 8: HRMS System -->
+                <div class="project-card" data-category="crm">
+                    <div class="project-image" style="background: linear-gradient(135deg, #4a148c, #6a1b9a);">
+                        👥
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('hrms')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>HRMS System</h3>
+                        <p>Business • HR</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 9: College Website -->
+                <div class="project-card" data-category="education web">
+                    <div class="project-image" style="background: linear-gradient(135deg, #1a237e, #283593);">
+                        🎓
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('college')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>College Website</h3>
+                        <p>Education • Web</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">WordPress</span>
+                            <span class="project-tag">Tailwind</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 10: Real Estate App -->
+                <div class="project-card" data-category="mobile web">
+                    <div class="project-image" style="background: linear-gradient(135deg, #e65100, #f57c00);">
+                        🏠
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('realestate')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Real Estate App</h3>
+                        <p>Mobile • Web</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React Native</span>
+                            <span class="project-tag">Firebase</span>
+                            <span class="project-tag">Mapbox</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 11: AI Content Generator -->
+                <div class="project-card" data-category="ai">
+                    <div class="project-image" style="background: linear-gradient(135deg, #1a237e, #283593);">
+                        ✍️
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('contentai')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>AI Content Generator</h3>
+                        <p>AI • Marketing</p>
+                        <div class="project-tags">
+                            <span class="project-tag">OpenAI</span>
+                            <span class="project-tag">Next.js</span>
+                            <span class="project-tag">Python</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 12: Fitness Tracker App -->
+                <div class="project-card" data-category="mobile">
+                    <div class="project-image" style="background: linear-gradient(135deg, #1b5e20, #2e7d32);">
+                        🏃
+                        <div class="project-overlay">
+                            <button class="btn-view" onclick="openProject('fitness')">View Details</button>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Fitness Tracker App</h3>
+                        <p>Mobile • Health</p>
+                        <div class="project-tags">
+                            <span class="project-tag">React Native</span>
+                            <span class="project-tag">Node.js</span>
+                            <span class="project-tag">MongoDB</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2220,22 +2646,230 @@
     </button>
 
     <!-- ============================================
-    JAVASCRIPT - FULLY CONFIGURED WITH EMAILJS
+    JAVASCRIPT - FULLY CONFIGURED
     ============================================ -->
     <script>
         // ============================================
-        // EMAILJS CONFIGURATION - YOUR CREDENTIALS
+        // PROJECT DATA
+        // ============================================
+        const projectsData = {
+            dental: {
+                title: 'Dental Clinic CRM',
+                icon: '🦷',
+                category: 'Healthcare • CRM',
+                description: 'A comprehensive CRM system designed specifically for dental clinics. It manages patient records, appointments, treatment plans, and billing in one unified platform.',
+                problem: 'Dental clinics struggle with scattered patient data across multiple systems, leading to inefficiency and poor patient experience.',
+                solution: 'We built a centralized CRM with automated appointment reminders, treatment tracking, and integrated billing.',
+                results: 'Reduced no-shows by 45%, improved patient satisfaction by 60%, and saved 20+ hours per week in admin work.',
+                client: 'SmileCare Dental Group',
+                tech: ['React', 'Node.js', 'MongoDB', 'Twilio', 'Stripe']
+            },
+            school: {
+                title: 'School ERP System',
+                icon: '🏫',
+                category: 'Education • ERP',
+                description: 'An enterprise resource planning system for educational institutions. Manages students, teachers, attendance, grades, and parent communication.',
+                problem: 'Schools need a unified system to manage administrative tasks, track student progress, and communicate with parents efficiently.',
+                solution: 'We developed a comprehensive ERP with role-based access, real-time analytics, and automated reporting.',
+                results: 'Reduced admin work by 50%, improved parent engagement by 70%, and streamlined operations.',
+                client: 'Global Education Academy',
+                tech: ['Next.js', 'PostgreSQL', 'Tailwind', 'Prisma', 'Vercel']
+            },
+            chatbot: {
+                title: 'AI Support Chatbot',
+                icon: '🤖',
+                category: 'AI • Automation',
+                description: 'An intelligent chatbot powered by OpenAI that provides 24/7 customer support, handles common queries, and escalates complex issues to human agents.',
+                problem: 'Businesses receive too many repetitive support queries, overwhelming their support teams.',
+                solution: 'We built an AI chatbot that understands natural language, provides instant responses, and learns from interactions.',
+                results: 'Reduced support tickets by 70%, improved response time from hours to seconds, and saved 30+ hours per week.',
+                client: 'TechSupport Pro',
+                tech: ['Python', 'OpenAI', 'FastAPI', 'React', 'WebSocket']
+            },
+            pos: {
+                title: 'Restaurant POS System',
+                icon: '🍽️',
+                category: 'Business • POS',
+                description: 'A modern point-of-sale system for restaurants with table management, order tracking, inventory control, and real-time analytics.',
+                problem: 'Restaurants need efficient order management and billing systems to serve customers faster.',
+                solution: 'We built a responsive POS system with table mapping, order queues, and integrated payment processing.',
+                results: 'Reduced order errors by 90%, improved table turnover by 40%, and increased revenue by 25%.',
+                client: 'Gourmet Bistro',
+                tech: ['React', 'Firebase', 'PWA', 'Node.js', 'Socket.io']
+            },
+            internship: {
+                title: 'Internship Portal',
+                icon: '💼',
+                category: 'Education • Platform',
+                description: 'A platform connecting students with internship opportunities. Features company profiles, application tracking, and skill assessment tools.',
+                problem: 'Students struggle to find relevant internships while companies struggle to find qualified candidates.',
+                solution: 'We created a matching platform with AI-powered recommendations, application tracking, and interview scheduling.',
+                results: 'Placed 500+ interns in 6 months, increased company participation by 80%, and improved matching accuracy.',
+                client: 'FutureReady',
+                tech: ['Next.js', 'Prisma', 'Stripe', 'Tailwind', 'PostgreSQL']
+            },
+            healthcare: {
+                title: 'Healthcare Dashboard',
+                icon: '📊',
+                category: 'Healthcare • Analytics',
+                description: 'A real-time healthcare analytics dashboard for hospitals. Visualizes patient data, bed occupancy, emergency cases, and staff availability.',
+                problem: 'Hospitals lack real-time visibility into operations, leading to bottlenecks and delayed care.',
+                solution: 'We built an interactive dashboard with live data feeds, predictive analytics, and customizable views.',
+                results: 'Improved bed utilization by 35%, reduced ER wait times by 40%, and optimized staff allocation.',
+                client: 'City General Hospital',
+                tech: ['D3.js', 'Python', 'AI', 'React', 'FastAPI']
+            },
+            ecommerce: {
+                title: 'E-Commerce Platform',
+                icon: '🛒',
+                category: 'Web • Mobile',
+                description: 'A full-featured e-commerce platform with mobile app support. Includes product catalog, cart, payment processing, and order management.',
+                problem: 'Traditional e-commerce platforms lack modern features and mobile optimization.',
+                solution: 'We built a custom platform with AI-powered recommendations, seamless checkout, and native mobile apps.',
+                results: 'Increased conversion rate by 35%, reduced cart abandonment by 45%, and grew mobile sales by 60%.',
+                client: 'ShopVibe',
+                tech: ['Next.js', 'Stripe', 'React Native', 'Tailwind', 'Node.js']
+            },
+            hrms: {
+                title: 'HRMS System',
+                icon: '👥',
+                category: 'Business • HR',
+                description: 'A complete HR management system with employee onboarding, attendance tracking, payroll, and performance reviews.',
+                problem: 'HR departments spend too much time on manual processes and paperwork.',
+                solution: 'We automated HR workflows with self-service portals, automated payroll, and performance tracking.',
+                results: 'Reduced HR admin work by 70%, improved payroll accuracy by 99%, and increased employee satisfaction.',
+                client: 'CorpHR Solutions',
+                tech: ['React', 'Node.js', 'MongoDB', 'Chart.js', 'JWT']
+            },
+            college: {
+                title: 'College Website',
+                icon: '🎓',
+                category: 'Education • Web',
+                description: 'A modern, responsive website for a college with course listings, admission management, student portals, and event calendars.',
+                problem: 'Outdated college websites provide poor user experience and limited functionality.',
+                solution: 'We redesigned the site with modern UI, intuitive navigation, and integrated admission management.',
+                results: 'Increased student applications by 45%, improved user engagement by 80%, and streamlined admissions.',
+                client: 'City College',
+                tech: ['Next.js', 'WordPress', 'Tailwind', 'GraphQL', 'Vercel']
+            },
+            realestate: {
+                title: 'Real Estate App',
+                icon: '🏠',
+                category: 'Mobile • Web',
+                description: 'A mobile-first real estate platform with property listings, virtual tours, mortgage calculators, and agent chat.',
+                problem: 'Home buyers struggle to find properties efficiently while agents need better lead management.',
+                solution: 'We built an app with AI-powered property recommendations, interactive maps, and instant chat.',
+                results: 'Increased leads by 60%, improved property viewing conversions by 45%, and reduced search time.',
+                client: 'HomesFinder',
+                tech: ['React Native', 'Firebase', 'Mapbox', 'Node.js', 'AI']
+            },
+            contentai: {
+                title: 'AI Content Generator',
+                icon: '✍️',
+                category: 'AI • Marketing',
+                description: 'An AI-powered content generation tool that creates blog posts, social media content, and marketing copy in seconds.',
+                problem: 'Content creation is time-consuming and expensive for businesses.',
+                solution: 'We built a tool using OpenAI that generates high-quality, SEO-optimized content with simple prompts.',
+                results: 'Reduced content creation time by 80%, increased content output by 5x, and improved SEO rankings.',
+                client: 'ContentPro',
+                tech: ['OpenAI', 'Next.js', 'Python', 'Tailwind', 'Vercel']
+            },
+            fitness: {
+                title: 'Fitness Tracker App',
+                icon: '🏃',
+                category: 'Mobile • Health',
+                description: 'A mobile app for tracking workouts, nutrition, and health metrics with social features and AI coaching.',
+                problem: 'People need motivation and personalized guidance for fitness goals.',
+                solution: 'We built an app with AI coaching, social challenges, and comprehensive tracking.',
+                results: '60% of users achieved their fitness goals, 45% increase in monthly active users, 5-star rating.',
+                client: 'FitLife',
+                tech: ['React Native', 'Node.js', 'MongoDB', 'AI', 'Firebase']
+            }
+        };
+
+        // ============================================
+        // PROJECT MODAL FUNCTIONS
+        // ============================================
+        function openProject(id) {
+            const project = projectsData[id];
+            if (!project) return;
+
+            document.getElementById('modalImage').textContent = project.icon;
+            document.getElementById('modalTitle').textContent = project.title;
+            document.getElementById('modalMeta').textContent = project.category;
+            document.getElementById('modalDescription').textContent = project.description;
+            document.getElementById('modalProblem').textContent = project.problem;
+            document.getElementById('modalSolution').textContent = project.solution;
+            document.getElementById('modalResults').textContent = project.results;
+            document.getElementById('modalClient').textContent = project.client;
+
+            // Tech tags
+            const techContainer = document.getElementById('modalTech');
+            techContainer.innerHTML = '';
+            project.tech.forEach(tech => {
+                const tag = document.createElement('span');
+                tag.className = 'tech-tag';
+                tag.textContent = tech;
+                techContainer.appendChild(tag);
+            });
+
+            document.getElementById('projectModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        document.getElementById('modalClose').addEventListener('click', function() {
+            document.getElementById('projectModal').classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        document.getElementById('projectModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ============================================
+        // PROJECT FILTER
+        // ============================================
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+
+                projectCards.forEach(card => {
+                    const categories = card.dataset.category;
+                    if (filter === 'all' || categories.includes(filter)) {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // ============================================
+        // EMAILJS CONFIGURATION
         // ============================================
         (function() {
-            // ✅ YOUR EMAILJS CREDENTIALS (All configured!)
+            // ✅ YOUR EMAILJS CREDENTIALS
             const EMAILJS_PUBLIC_KEY = 'MhS8ntxYnVe8Hk2dt';
             const EMAILJS_SERVICE_ID = 'service_gid6lki';
-            const EMAILJS_TEMPLATE_ID = 'template_s87o5an'; // ✅ Your Template ID
+            const EMAILJS_TEMPLATE_ID = 'template_s87o5an';
 
-            // Initialize EmailJS with your Public Key
             emailjs.init(EMAILJS_PUBLIC_KEY);
 
-            // Contact form handler
             const form = document.getElementById('contactForm');
             const sendBtn = document.getElementById('sendBtn');
             const formSuccess = document.getElementById('formSuccess');
@@ -2307,13 +2941,8 @@
                     message: messageInput.value.trim()
                 };
 
-                console.log('📧 Sending email with params:', templateParams);
-                console.log('🔑 Service ID:', EMAILJS_SERVICE_ID);
-                console.log('📋 Template ID:', EMAILJS_TEMPLATE_ID);
-
                 emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
                     .then(function(response) {
-                        console.log('✅ Email sent successfully!', response.status, response.text);
                         form.style.display = 'none';
                         formSuccess.classList.add('show');
                         showToast('🎉 Message sent successfully!', 'success');
@@ -2331,8 +2960,6 @@
                         }, 5000);
                     })
                     .catch(function(error) {
-                        console.error('❌ Failed to send email:', error);
-                        console.error('Error details:', JSON.stringify(error));
                         showToast('Failed to send message. Please try again.', 'error');
                         sendBtn.disabled = false;
                         sendBtn.innerHTML = '<span>Send Message <i class="fas fa-paper-plane"></i></span>';
@@ -2603,12 +3230,9 @@
             });
 
             console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
+            console.log('📦 12 Demo Projects Loaded');
             console.log('📧 Contact form configured with EmailJS');
-            console.log('✅ Public Key:', EMAILJS_PUBLIC_KEY);
-            console.log('✅ Service ID:', EMAILJS_SERVICE_ID);
-            console.log('✅ Template ID:', EMAILJS_TEMPLATE_ID);
-            console.log('📧 Emails will be sent to: rahulprasadveeramani29@gmail.com');
-            console.log('🎉 All configured! Ready to send emails.');
+            console.log('✅ All configured! Ready to go.');
         })();
     </script>
 
