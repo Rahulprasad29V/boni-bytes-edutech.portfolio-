@@ -6,7 +6,6 @@
     <title>Boni Bytes Edutech – Premium Software Agency</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         /* ============================================
@@ -44,9 +43,6 @@
             --glow-color: rgba(37, 99, 235, 0.15);
         }
 
-        /* ============================================
-                   REST OF THE CSS (previous styles remain the same)
-                   ============================================ */
         * {
             margin: 0;
             padding: 0;
@@ -87,9 +83,6 @@
             padding: 0 20px;
         }
 
-        /* ============================================
-                   SCROLL BAR
-                   ============================================ */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -335,7 +328,6 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
 
-        /* Mobile Menu */
         .mobile-menu {
             display: none;
             position: fixed;
@@ -628,9 +620,6 @@
             filter: blur(30px);
         }
 
-        /* ============================================
-                   GLOWING ORB EFFECTS
-                   ============================================ */
         .glow-orb {
             position: absolute;
             border-radius: 50%;
@@ -717,9 +706,6 @@
             line-height: 1.7;
         }
 
-        /* ============================================
-                   SECTIONS
-                   ============================================ */
         section {
             padding: 100px 0;
             position: relative;
@@ -810,7 +796,7 @@
         }
 
         /* ============================================
-                   PROJECTS (UPDATED WITH DEMO PROJECTS)
+                   PROJECTS
                    ============================================ */
         .projects-grid {
             display: grid;
@@ -910,122 +896,36 @@
             border: 1px solid rgba(37, 99, 235, 0.1);
         }
 
-        /* Project detail modal */
-        .project-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px);
-            z-index: 9999;
-            padding: 40px 20px;
-            overflow-y: auto;
-        }
-
-        .project-modal.active {
+        .filter-buttons {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
             justify-content: center;
+            margin-bottom: 40px;
         }
 
-        .project-modal-content {
-            background: var(--bg-card);
-            border-radius: 24px;
-            max-width: 800px;
-            width: 100%;
-            padding: 40px;
+        .filter-btn {
+            padding: 10px 24px;
+            border-radius: 50px;
             border: 1px solid var(--border-color);
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .project-modal-close {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 28px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
             transition: var(--transition);
+            font-family: 'Inter', sans-serif;
         }
 
-        .project-modal-close:hover {
-            transform: rotate(90deg);
+        .filter-btn:hover {
+            border-color: var(--primary);
             color: var(--primary);
         }
 
-        .project-modal-image {
-            width: 100%;
-            height: 200px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            margin-bottom: 20px;
-        }
-
-        .project-modal h2 {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .project-modal .project-meta {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
-        .project-modal .project-description {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 16px;
-        }
-
-        .project-modal .project-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin: 20px 0;
-        }
-
-        .project-modal .detail-item {
-            padding: 16px;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-
-        .project-modal .detail-item h4 {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .project-modal .detail-item p {
-            font-size: 14px;
-            margin-top: 4px;
-            color: var(--text-primary);
-        }
-
-        .project-modal .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 16px 0;
-        }
-
-        .project-modal .tech-tag {
-            padding: 4px 14px;
-            background: rgba(37, 99, 235, 0.1);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--text-secondary);
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
         }
 
         /* ============================================
@@ -1256,7 +1156,7 @@
         }
 
         /* ============================================
-                   CONTACT
+                   CONTACT / GET IN TOUCH
                    ============================================ */
         .contact-grid {
             display: grid;
@@ -1392,6 +1292,57 @@
             color: var(--text-primary);
         }
 
+        /* Social Icons */
+        .contact-social {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .contact-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 20px;
+            transition: var(--transition);
+        }
+
+        .contact-social a:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .contact-social a.whatsapp:hover {
+            background: #25D366;
+            color: white;
+            border-color: #25D366;
+        }
+
+        .contact-social a.linkedin:hover {
+            background: #0A66C2;
+            color: white;
+            border-color: #0A66C2;
+        }
+
+        .contact-social a.instagram:hover {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+            border-color: #dc2743;
+        }
+
+        .contact-social a.github:hover {
+            background: #333;
+            color: white;
+            border-color: #333;
+        }
+
         /* ============================================
                    CTA
                    ============================================ */
@@ -1440,6 +1391,10 @@
             font-size: 18px;
             color: var(--text-secondary);
             margin-bottom: 32px;
+        }
+
+        .cta .btn-primary {
+            display: inline-block;
         }
 
         /* ============================================
@@ -1592,9 +1547,6 @@
             color: var(--primary);
         }
 
-        /* ============================================
-                   SCROLL PROGRESS
-                   ============================================ */
         .scroll-progress {
             position: fixed;
             top: 0;
@@ -1605,75 +1557,6 @@
             width: 0%;
             transition: width 0.1s;
             box-shadow: 0 0 20px var(--glow-color);
-        }
-
-        /* ============================================
-                   TOAST NOTIFICATION
-                   ============================================ */
-        .toast {
-            position: fixed;
-            top: 100px;
-            right: 30px;
-            padding: 16px 24px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-            z-index: 99999;
-            transform: translateX(400px);
-            transition: transform 0.4s ease;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast.success {
-            background: var(--success);
-        }
-
-        .toast.error {
-            background: var(--error);
-        }
-
-        .toast.info {
-            background: var(--primary);
-        }
-
-        /* ============================================
-                   FILTER BUTTONS
-                   ============================================ */
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-
-        .filter-btn {
-            padding: 10px 24px;
-            border-radius: 50px;
-            border: 1px solid var(--border-color);
-            background: transparent;
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-color: transparent;
         }
 
         /* ============================================
@@ -1692,13 +1575,6 @@
             .contact-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
-            }
-            .project-modal-content {
-                margin: 20px;
-                padding: 30px;
-            }
-            .project-modal .project-details {
-                grid-template-columns: 1fr;
             }
         }
 
@@ -1786,18 +1662,8 @@
             #cursor-glow {
                 display: none !important;
             }
-            .floating-shapes {
-                display: none;
-            }
             .nav-actions .nav-cta {
                 display: none;
-            }
-            .project-modal-content {
-                padding: 20px;
-                margin: 10px;
-            }
-            .project-modal .project-details {
-                grid-template-columns: 1fr;
             }
             .filter-buttons {
                 gap: 8px;
@@ -1805,6 +1671,9 @@
             .filter-btn {
                 padding: 8px 16px;
                 font-size: 12px;
+            }
+            .contact-social {
+                justify-content: center;
             }
         }
 
@@ -1832,15 +1701,6 @@
             }
             .testimonials-grid {
                 grid-template-columns: 1fr;
-            }
-            .toast {
-                top: 80px;
-                right: 16px;
-                left: 16px;
-                transform: translateY(-100px);
-            }
-            .toast.show {
-                transform: translateY(0);
             }
         }
     </style>
@@ -1871,44 +1731,37 @@
     <canvas id="particles-canvas"></canvas>
 
     <!-- ============================================
-    TOAST NOTIFICATION
-    ============================================ -->
-    <div class="toast" id="toast"></div>
-
-    <!-- ============================================
     PROJECT MODAL
     ============================================ -->
-    <div class="project-modal" id="projectModal">
-        <div class="project-modal-content">
-            <button class="project-modal-close" id="modalClose">&times;</button>
-            <div class="project-modal-image" id="modalImage">🏥</div>
-            <h2 id="modalTitle">Project Title</h2>
-            <p class="project-meta" id="modalMeta">Category • Client</p>
-            <p class="project-description" id="modalDescription">Project description goes here.</p>
-            <div class="project-details">
-                <div class="detail-item">
-                    <h4>Problem</h4>
-                    <p id="modalProblem">The problem we solved</p>
+    <div class="project-modal" id="projectModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(20px);z-index:9999;padding:40px 20px;overflow-y:auto;">
+        <div style="background:var(--bg-card);border-radius:24px;max-width:800px;width:100%;padding:40px;border:1px solid var(--border-color);position:relative;max-height:90vh;overflow-y:auto;margin:auto;">
+            <button onclick="document.getElementById('projectModal').style.display='none';document.body.style.overflow='';" style="position:absolute;top:16px;right:20px;background:none;border:none;color:var(--text-primary);font-size:28px;cursor:pointer;transition:var(--transition);">&times;</button>
+            <div id="modalImage" style="width:100%;height:200px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:60px;margin-bottom:20px;">🏥</div>
+            <h2 id="modalTitle" style="font-size:28px;margin-bottom:8px;">Project Title</h2>
+            <p id="modalMeta" style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;">Category</p>
+            <p id="modalDescription" style="color:var(--text-secondary);line-height:1.8;margin-bottom:16px;">Description</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0;">
+                <div style="padding:16px;background:var(--bg-secondary);border-radius:12px;border:1px solid var(--border-color);">
+                    <h4 style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Problem</h4>
+                    <p id="modalProblem" style="font-size:14px;margin-top:4px;color:var(--text-primary);">The problem</p>
                 </div>
-                <div class="detail-item">
-                    <h4>Solution</h4>
-                    <p id="modalSolution">Our solution approach</p>
+                <div style="padding:16px;background:var(--bg-secondary);border-radius:12px;border:1px solid var(--border-color);">
+                    <h4 style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Solution</h4>
+                    <p id="modalSolution" style="font-size:14px;margin-top:4px;color:var(--text-primary);">The solution</p>
                 </div>
-                <div class="detail-item">
-                    <h4>Results</h4>
-                    <p id="modalResults">The outcomes achieved</p>
+                <div style="padding:16px;background:var(--bg-secondary);border-radius:12px;border:1px solid var(--border-color);">
+                    <h4 style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Results</h4>
+                    <p id="modalResults" style="font-size:14px;margin-top:4px;color:var(--text-primary);">The results</p>
                 </div>
-                <div class="detail-item">
-                    <h4>Client</h4>
-                    <p id="modalClient">Client name</p>
+                <div style="padding:16px;background:var(--bg-secondary);border-radius:12px;border:1px solid var(--border-color);">
+                    <h4 style="font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;">Client</h4>
+                    <p id="modalClient" style="font-size:14px;margin-top:4px;color:var(--text-primary);">Client name</p>
                 </div>
             </div>
-            <div class="project-tech" id="modalTech">
-                <span class="tech-tag">Next.js</span>
-                <span class="tech-tag">React</span>
-                <span class="tech-tag">Node.js</span>
+            <div id="modalTech" style="display:flex;flex-wrap:wrap;gap:8px;margin:16px 0;">
+                <span style="padding:4px 14px;background:rgba(37,99,235,0.1);border:1px solid var(--border-color);border-radius:20px;font-size:12px;color:var(--text-secondary);">Next.js</span>
             </div>
-            <a href="#contact" class="btn-primary"><span>Get a Similar Project</span></a>
+            <a href="#contact" class="btn-primary" style="display:inline-block;"><span>Get a Similar Project</span></a>
         </div>
     </div>
 
@@ -1917,7 +1770,7 @@
     ============================================ -->
     <nav class="navbar" id="navbar">
         <div class="container">
-            <a href="#" class="logo">
+            <a href="#home" class="logo">
                 <span>Boni</span>
                 <span>Bytes</span>
                 <span class="logo-badge">Edutech</span>
@@ -2068,7 +1921,7 @@
     </section>
 
     <!-- ============================================
-    PROJECTS SECTION - DEMO PROJECTS
+    PROJECTS SECTION
     ============================================ -->
     <section class="projects" id="projects">
         <div class="container">
@@ -2082,7 +1935,6 @@
                 </p>
             </div>
 
-            <!-- Filter Buttons -->
             <div class="filter-buttons" id="filterButtons">
                 <button class="filter-btn active" data-filter="all">All Projects</button>
                 <button class="filter-btn" data-filter="web">Websites</button>
@@ -2497,17 +2349,17 @@
     </section>
 
     <!-- ============================================
-    CONTACT SECTION
+    GET IN TOUCH / CONTACT SECTION
     ============================================ -->
     <section class="contact" id="contact">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">Contact</span>
+                <span class="section-label">Get in Touch</span>
                 <h2 class="section-title">
-                    Get in <span class="highlight">Touch</span>
+                    Let's <span class="highlight">Connect</span>
                 </h2>
                 <p class="section-subtitle">
-                    Let's discuss your project and how we can help.
+                    Have a project in mind? Reach out to us and let's make it happen.
                 </p>
             </div>
 
@@ -2540,6 +2392,7 @@
                 </form>
 
                 <div class="contact-info">
+                    <!-- Location -->
                     <div class="contact-item">
                         <div class="contact-item-icon">📍</div>
                         <div class="contact-item-text">
@@ -2547,6 +2400,8 @@
                             <p>123 Tech Park, Silicon Valley</p>
                         </div>
                     </div>
+
+                    <!-- Email -->
                     <div class="contact-item">
                         <div class="contact-item-icon">✉️</div>
                         <div class="contact-item-text">
@@ -2554,11 +2409,35 @@
                             <p>rahulprasadveeramani29@gmail.com</p>
                         </div>
                     </div>
+
+                    <!-- Phone -->
                     <div class="contact-item">
                         <div class="contact-item-icon">📞</div>
                         <div class="contact-item-text">
                             <h4>Phone</h4>
                             <p>+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="contact-item" style="border: none; background: transparent; padding: 0;">
+                        <div class="contact-item-icon" style="background: transparent;">🌐</div>
+                        <div class="contact-item-text">
+                            <h4>Follow Us</h4>
+                            <div class="contact-social">
+                                <a href="https://wa.me/1234567890" target="_blank" class="whatsapp" aria-label="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="https://linkedin.com/in/yourprofile" target="_blank" class="linkedin" aria-label="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="https://instagram.com/yourprofile" target="_blank" class="instagram" aria-label="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://github.com/yourprofile" target="_blank" class="github" aria-label="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2567,7 +2446,7 @@
     </section>
 
     <!-- ============================================
-    CTA
+    CTA SECTION
     ============================================ -->
     <section class="cta">
         <div class="container">
@@ -2646,7 +2525,7 @@
     </button>
 
     <!-- ============================================
-    JAVASCRIPT - FULLY CONFIGURED
+    JAVASCRIPT
     ============================================ -->
     <script>
         // ============================================
@@ -2787,9 +2666,6 @@
             }
         };
 
-        // ============================================
-        // PROJECT MODAL FUNCTIONS
-        // ============================================
         function openProject(id) {
             const project = projectsData[id];
             if (!project) return;
@@ -2803,46 +2679,30 @@
             document.getElementById('modalResults').textContent = project.results;
             document.getElementById('modalClient').textContent = project.client;
 
-            // Tech tags
             const techContainer = document.getElementById('modalTech');
             techContainer.innerHTML = '';
             project.tech.forEach(tech => {
                 const tag = document.createElement('span');
-                tag.className = 'tech-tag';
+                tag.style.cssText =
+                    'padding:4px 14px;background:rgba(37,99,235,0.1);border:1px solid var(--border-color);border-radius:20px;font-size:12px;color:var(--text-secondary);';
                 tag.textContent = tech;
                 techContainer.appendChild(tag);
             });
 
-            document.getElementById('projectModal').classList.add('active');
+            document.getElementById('projectModal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
 
-        document.getElementById('modalClose').addEventListener('click', function() {
-            document.getElementById('projectModal').classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        document.getElementById('projectModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
         // ============================================
-        // PROJECT FILTER
+        // FILTER
         // ============================================
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const projectCards = document.querySelectorAll('.project-card');
-
-        filterButtons.forEach(button => {
+        document.querySelectorAll('.filter-btn').forEach(button => {
             button.addEventListener('click', function() {
-                filterButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
 
                 const filter = this.dataset.filter;
-
-                projectCards.forEach(card => {
+                document.querySelectorAll('.project-card').forEach(card => {
                     const categories = card.dataset.category;
                     if (filter === 'all' || categories.includes(filter)) {
                         card.style.display = 'block';
@@ -2863,7 +2723,6 @@
         // EMAILJS CONFIGURATION
         // ============================================
         (function() {
-            // ✅ YOUR EMAILJS CREDENTIALS
             const EMAILJS_PUBLIC_KEY = 'MhS8ntxYnVe8Hk2dt';
             const EMAILJS_SERVICE_ID = 'service_gid6lki';
             const EMAILJS_TEMPLATE_ID = 'template_s87o5an';
@@ -2974,266 +2833,266 @@
                     toast.classList.remove('show');
                 }, 4000);
             }
-
-            // ============================================
-            // LOADING SCREEN
-            // ============================================
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    document.getElementById('loader').classList.add('hidden');
-                }, 1000);
-            });
-
-            // ============================================
-            // PARTICLES
-            // ============================================
-            const canvas = document.getElementById('particles-canvas');
-            const ctx = canvas.getContext('2d');
-
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-
-            let particles = [];
-            const particleCount = 80;
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 2 + 1;
-                    this.speedX = (Math.random() - 0.5) * 0.5;
-                    this.speedY = (Math.random() - 0.5) * 0.5;
-                    this.opacity = Math.random() * 0.5 + 0.2;
-                }
-
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    if (this.x > canvas.width) this.x = 0;
-                    if (this.x < 0) this.x = canvas.width;
-                    if (this.y > canvas.height) this.y = 0;
-                    if (this.y < 0) this.y = canvas.height;
-                }
-
-                draw() {
-                    ctx.fillStyle = `rgba(37, 99, 235, ${this.opacity})`;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-
-            function connectParticles() {
-                for (let i = 0; i < particles.length; i++) {
-                    for (let j = i + 1; j < particles.length; j++) {
-                        const dx = particles[i].x - particles[j].x;
-                        const dy = particles[i].y - particles[j].y;
-                        const distance = Math.sqrt(dx * dx + dy * dy);
-                        if (distance < 150) {
-                            ctx.strokeStyle = `rgba(37, 99, 235, ${0.1 * (1 - distance / 150)})`;
-                            ctx.lineWidth = 1;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[i].x, particles[i].y);
-                            ctx.lineTo(particles[j].x, particles[j].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-
-            function animateParticles() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => { p.update();
-                    p.draw(); });
-                connectParticles();
-                requestAnimationFrame(animateParticles);
-            }
-            animateParticles();
-
-            // ============================================
-            // NAVBAR SCROLL
-            // ============================================
-            const navbar = document.getElementById('navbar');
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 80) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-            });
-
-            // ============================================
-            // SCROLL PROGRESS
-            // ============================================
-            const scrollProgress = document.getElementById('scrollProgress');
-            window.addEventListener('scroll', () => {
-                const scrollTop = window.pageYOffset;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = (scrollTop / docHeight) * 100;
-                scrollProgress.style.width = progress + '%';
-            });
-
-            // ============================================
-            // MOBILE MENU
-            // ============================================
-            const hamburger = document.getElementById('hamburger');
-            const mobileMenu = document.getElementById('mobileMenu');
-
-            hamburger.addEventListener('click', () => {
-                hamburger.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-            });
-
-            document.querySelectorAll('.mobile-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    mobileMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
-            });
-
-            // ============================================
-            // THEME TOGGLE
-            // ============================================
-            const themeToggle = document.getElementById('themeToggle');
-            const html = document.documentElement;
-
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = html.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                html.setAttribute('data-theme', newTheme);
-                themeToggle.innerHTML = newTheme === 'dark' ?
-                    '<i class="fas fa-moon"></i>' :
-                    '<i class="fas fa-sun"></i>';
-                localStorage.setItem('theme', newTheme);
-            });
-
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                html.setAttribute('data-theme', savedTheme);
-                themeToggle.innerHTML = savedTheme === 'dark' ?
-                    '<i class="fas fa-moon"></i>' :
-                    '<i class="fas fa-sun"></i>';
-            }
-
-            // ============================================
-            // BACK TO TOP
-            // ============================================
-            const backToTop = document.getElementById('backToTop');
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 500) {
-                    backToTop.classList.add('visible');
-                } else {
-                    backToTop.classList.remove('visible');
-                }
-            });
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            // ============================================
-            // SMOOTH SCROLL
-            // ============================================
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        e.preventDefault();
-                        const navHeight = document.querySelector('.navbar').offsetHeight;
-                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset -
-                            navHeight;
-                        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-                    }
-                });
-            });
-
-            // ============================================
-            // FAQ ACCORDION
-            // ============================================
-            document.querySelectorAll('.faq-question').forEach(button => {
-                button.addEventListener('click', () => {
-                    const item = button.parentElement;
-                    const isActive = item.classList.contains('active');
-                    document.querySelectorAll('.faq-item').forEach(faq => {
-                        faq.classList.remove('active');
-                    });
-                    if (!isActive) {
-                        item.classList.add('active');
-                    }
-                });
-            });
-
-            // ============================================
-            // COUNTER ANIMATION
-            // ============================================
-            const statNumbers = document.querySelectorAll('.stat-number');
-            const counterObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const el = entry.target;
-                        const target = parseInt(el.getAttribute('data-count'));
-                        let current = 0;
-                        const increment = target / 40;
-                        const timer = setInterval(() => {
-                            current += increment;
-                            if (current >= target) {
-                                el.textContent = target + '+';
-                                clearInterval(timer);
-                            } else {
-                                el.textContent = Math.floor(current) + '+';
-                            }
-                        }, 50);
-                        counterObserver.unobserve(el);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            statNumbers.forEach(el => {
-                el.textContent = '0';
-                counterObserver.observe(el);
-            });
-
-            // ============================================
-            // SCROLL ANIMATIONS
-            // ============================================
-            const animateElements = document.querySelectorAll(
-                '.service-card, .project-card, .testimonial-card, .pricing-card'
-            );
-            const scrollObserver = new IntersectionObserver((entries) => {
-                entries.forEach((entry, index) => {
-                    if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }, index * 100);
-                        scrollObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-            animateElements.forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                scrollObserver.observe(el);
-            });
-
-            console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
-            console.log('📦 12 Demo Projects Loaded');
-            console.log('📧 Contact form configured with EmailJS');
-            console.log('✅ All configured! Ready to go.');
         })();
+
+        // ============================================
+        // LOADING
+        // ============================================
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1000);
+        });
+
+        // ============================================
+        // PARTICLES
+        // ============================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        let particles = [];
+        const particleCount = 80;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(37, 99, 235, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function connectParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 150) {
+                        ctx.strokeStyle = `rgba(37, 99, 235, ${0.1 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update();
+                p.draw(); });
+            connectParticles();
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ============================================
+        // NAVBAR
+        // ============================================
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 80) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================
+        // SCROLL PROGRESS
+        // ============================================
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = progress + '%';
+        });
+
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        document.querySelectorAll('.mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // ============================================
+        // THEME TOGGLE
+        // ============================================
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            themeToggle.innerHTML = newTheme === 'dark' ?
+                '<i class="fas fa-moon"></i>' :
+                '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', newTheme);
+        });
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            html.setAttribute('data-theme', savedTheme);
+            themeToggle.innerHTML = savedTheme === 'dark' ?
+                '<i class="fas fa-moon"></i>' :
+                '<i class="fas fa-sun"></i>';
+        }
+
+        // ============================================
+        // BACK TO TOP
+        // ============================================
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============================================
+        // SMOOTH SCROLL
+        // ============================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    const navHeight = document.querySelector('.navbar').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset -
+                        navHeight;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ============================================
+        // FAQ
+        // ============================================
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(faq => {
+                    faq.classList.remove('active');
+                });
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // ============================================
+        // COUNTER
+        // ============================================
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.getAttribute('data-count'));
+                    let current = 0;
+                    const increment = target / 40;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            el.textContent = target + '+';
+                            clearInterval(timer);
+                        } else {
+                            el.textContent = Math.floor(current) + '+';
+                        }
+                    }, 50);
+                    counterObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(el => {
+            el.textContent = '0';
+            counterObserver.observe(el);
+        });
+
+        // ============================================
+        // SCROLL ANIMATIONS
+        // ============================================
+        const animateElements = document.querySelectorAll(
+            '.service-card, .project-card, .testimonial-card, .pricing-card'
+        );
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
+                    scrollObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        animateElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            scrollObserver.observe(el);
+        });
+
+        console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
+        console.log('📦 12 Demo Projects Loaded');
+        console.log('📧 Contact form configured with EmailJS');
+        console.log('✅ All configured! Ready to go.');
     </script>
 
 </body>
