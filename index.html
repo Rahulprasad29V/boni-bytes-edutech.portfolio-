@@ -435,6 +435,31 @@
             transform: translateY(-3px);
         }
 
+        /* WhatsApp Button */
+        .btn-whatsapp {
+            display: inline-block;
+            padding: 14px 36px;
+            background: #25D366;
+            color: white;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-whatsapp i {
+            margin-right: 8px;
+        }
+
         /* ============================================
                    HERO SECTION
                    ============================================ */
@@ -1292,7 +1317,6 @@
             color: var(--text-primary);
         }
 
-        /* Social Icons */
         .contact-social {
             display: flex;
             gap: 16px;
@@ -1790,7 +1814,9 @@
                 <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="#contact" class="nav-cta btn-primary"><span>Book Consultation</span></a>
+                <a href="https://wa.me/1234567890?text=Hi%20Boni%20Bytes%2C%20I%20would%20like%20to%20book%20a%20free%20consultation" target="_blank" class="nav-cta btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Book Consultation
+                </a>
                 <button class="hamburger" id="hamburger">
                     <span></span>
                     <span></span>
@@ -1809,7 +1835,9 @@
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
-        <a href="#contact" class="btn-primary"><span>Book Consultation</span></a>
+        <a href="https://wa.me/1234567890?text=Hi%20Boni%20Bytes%2C%20I%20would%20like%20to%20book%20a%20free%20consultation" target="_blank" class="btn-whatsapp" style="display:block;text-align:center;margin-top:16px;width:100%;">
+            <i class="fab fa-whatsapp"></i> Book Consultation
+        </a>
     </div>
 
     <!-- ============================================
@@ -1833,7 +1861,9 @@
                     </p>
                     <div class="hero-buttons">
                         <a href="#projects" class="btn-primary"><span>View Portfolio</span></a>
-                        <a href="#contact" class="btn-secondary">Book Free Consultation</a>
+                        <a href="https://wa.me/1234567890?text=Hi%20Boni%20Bytes%2C%20I%20would%20like%20to%20book%20a%20free%20consultation" target="_blank" class="btn-whatsapp">
+                            <i class="fab fa-whatsapp"></i> Book Free Consultation
+                        </a>
                     </div>
                     <div class="hero-stats">
                         <div>
@@ -2262,7 +2292,9 @@
                         <li>5 pages</li>
                         <li>Email support</li>
                     </ul>
-                    <a href="#contact" class="btn-primary"><span>Get Started</span></a>
+                    <a href="https://wa.me/1234567890?text=Hi%20Boni%20Bytes%2C%20I%20want%20to%20get%20started%20with%20the%20Basic%20plan" target="_blank" class="btn-whatsapp" style="width:100%;">
+                        <i class="fab fa-whatsapp"></i> Get Started
+                    </a>
                 </div>
 
                 <div class="pricing-card featured">
@@ -2274,7 +2306,9 @@
                         <li>Priority support</li>
                         <li>CRM integration</li>
                     </ul>
-                    <a href="#contact" class="btn-primary"><span>Get Started</span></a>
+                    <a href="https://wa.me/1234567890?text=Hi%20Boni%20Bytes%2C%20I%20want%20to%20get%20started%20with%20the%20Professional%20plan" target="_blank" class="btn-whatsapp" style="width:100%;">
+                        <i class="fab fa-whatsapp"></i> Get Started
+                    </a>
                 </div>
 
                 <div class="pricing-card">
@@ -2286,7 +2320,9 @@
                         <li>24/7 support</li>
                         <li>AI integration</li>
                     </ul>
-                    <a href="#contact" class="btn-primary"><span>Contact Us</span></a>
+                    <a href="https://wa.me/1234567890?text=Hi%20Boni%20Bytes%2C%20I%20want%20to%20get%20started%20with%20the%20Enterprise%20plan" target="_blank" class="btn-whatsapp" style="width:100%;">
+                        <i class="fab fa-whatsapp"></i> Contact Us
+                    </a>
                 </div>
             </div>
         </div>
@@ -2419,6 +2455,17 @@
                         </div>
                     </div>
 
+                    <!-- WhatsApp Direct -->
+                    <div class="contact-item">
+                        <div class="contact-item-icon">💬</div>
+                        <div class="contact-item-text">
+                            <h4>WhatsApp</h4>
+                            <a href="https://wa.me/1234567890" target="_blank" class="btn-whatsapp" style="padding:8px 20px;font-size:14px;display:inline-block;">
+                                <i class="fab fa-whatsapp"></i> Chat with us
+                            </a>
+                        </div>
+                    </div>
+
                     <!-- Social Icons -->
                     <div class="contact-item" style="border: none; background: transparent; padding: 0;">
                         <div class="contact-item-icon" style="background: transparent;">🌐</div>
@@ -2453,7 +2500,9 @@
             <div class="cta-content">
                 <h2>Ready to build something <span>amazing</span>?</h2>
                 <p>Book a free consultation and discover how we can turn your vision into reality.</p>
-                <a href="#contact" class="btn-primary"><span>Start your project →</span></a>
+                <a href="https://wa.me/1234567890?text=Hi%20Boni%20Bytes%2C%20I%20would%20like%20to%20book%20a%20free%20consultation" target="_blank" class="btn-whatsapp" style="display:inline-block;">
+                    <i class="fab fa-whatsapp"></i> Start your project →
+                </a>
             </div>
         </div>
     </section>
