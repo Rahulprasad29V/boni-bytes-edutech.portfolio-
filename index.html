@@ -2220,19 +2220,19 @@
     </button>
 
     <!-- ============================================
-    JAVASCRIPT
+    JAVASCRIPT - EMAILJS CONFIGURED
     ============================================ -->
     <script>
         // ============================================
-        // EMAILJS CONFIGURATION
+        // EMAILJS CONFIGURATION - YOUR CREDENTIALS
         // ============================================
         (function() {
-            // 🔑 IMPORTANT: Replace these with your actual EmailJS credentials
-            const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your public key
-            const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your service ID
-            const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // Replace with your template ID
+            // ✅ YOUR EMAILJS CREDENTIALS (Already configured)
+            const EMAILJS_PUBLIC_KEY = 'MhS8ntxYnVe8Hk2dt';
+            const EMAILJS_SERVICE_ID = 'service_gid6lki';
+            const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID'; // ⚠️ REPLACE THIS with your Template ID
 
-            // Initialize EmailJS
+            // Initialize EmailJS with your Public Key
             emailjs.init(EMAILJS_PUBLIC_KEY);
 
             // Contact form handler
@@ -2307,9 +2307,11 @@
                     message: messageInput.value.trim()
                 };
 
+                console.log('📧 Sending email with params:', templateParams);
+
                 emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
                     .then(function(response) {
-                        console.log('✅ Email sent successfully!');
+                        console.log('✅ Email sent successfully!', response.status, response.text);
                         form.style.display = 'none';
                         formSuccess.classList.add('show');
                         showToast('🎉 Message sent successfully!', 'success');
@@ -2598,8 +2600,13 @@
             });
 
             console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
-            console.log('📧 Contact form is ready to send emails via EmailJS!');
+            console.log('📧 Contact form configured with EmailJS');
+            console.log('✅ Public Key:', MhS8ntxYnVe8Hk2dt);
+            console.log('✅ Service ID:', service_gid6lki);
+            console.log('⚠️ Template ID:',template_s87o5an);
+            console.log('📧 Emails will be sent to: rahulprasadveeramani29@gmail.com');
         })();
     </script>
+
 </body>
 </html>
