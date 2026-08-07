@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
         /* ============================================
-                   CSS VARIABLES & THEMES
+                   COMPLETE CSS (same as previous)
                    ============================================ */
         :root {
             --primary: #2563EB;
@@ -44,9 +44,6 @@
             --glow-color: rgba(37, 99, 235, 0.15);
         }
 
-        /* ============================================
-                   RESET & BASE
-                   ============================================ */
         * {
             margin: 0;
             padding: 0;
@@ -2129,7 +2126,7 @@
     </section>
 
     <!-- ============================================
-    CONTACT
+    CONTACT SECTION (WITH WORKING FORM)
     ============================================ -->
     <section class="contact" id="contact">
         <div class="container">
@@ -2183,7 +2180,7 @@
                         <div class="contact-item-icon">✉️</div>
                         <div class="contact-item-text">
                             <h4>Email</h4>
-                            <p>hello@bonibytes.com</p>
+                            <p>rahulprasadveeramani29@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -2278,14 +2275,14 @@
     </button>
 
     <!-- ============================================
-    JAVASCRIPT
+    JAVASCRIPT - COMPLETE WITH EMAILJS
     ============================================ -->
     <script>
         // ============================================
-        // EMAILJS CONFIGURATION
+        // EMAILJS CONFIGURATION - UPDATE THESE VALUES
         // ============================================
         (function() {
-            // Replace these with your actual EmailJS credentials
+            // 🔑 IMPORTANT: Replace these with your actual EmailJS credentials
             // Get them from: https://www.emailjs.com/
             const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY'; // Replace with your public key
             const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID'; // Replace with your service ID
@@ -2311,7 +2308,9 @@
             const subjectError = document.getElementById('subjectError');
             const messageError = document.getElementById('messageError');
 
-            // Validate individual fields
+            // ============================================
+            // VALIDATION FUNCTIONS
+            // ============================================
             function validateField(input, errorEl, condition) {
                 if (!condition) {
                     input.classList.add('error');
@@ -2344,7 +2343,9 @@
                 validateField(this, messageError, this.value.trim().length >= 10);
             });
 
-            // Form submission
+            // ============================================
+            // FORM SUBMISSION
+            // ============================================
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
@@ -2352,9 +2353,10 @@
                 const isNameValid = validateField(nameInput, nameError, nameInput.value.trim().length >= 2);
                 const isEmailValid = validateField(emailInput, emailError, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput
                     .value));
-                const isSubjectValid = validateField(subjectInput, subjectError, subjectInput.value.trim().length >= 3);
+                const isSubjectValid = validateField(subjectInput, subjectError, subjectInput.value.trim().length >=
+                3);
                 const isMessageValid = validateField(messageInput, messageError, messageInput.value.trim().length >=
-                10);
+                    10);
 
                 if (!isNameValid || !isEmailValid || !isSubjectValid || !isMessageValid) {
                     showToast('Please fill all fields correctly', 'error');
@@ -2365,23 +2367,23 @@
                 sendBtn.disabled = true;
                 sendBtn.innerHTML = '<span>Sending... <i class="fas fa-spinner fa-spin"></i></span>';
 
-                // Prepare template parameters
+                // Prepare template parameters (matches your EmailJS template)
                 const templateParams = {
-                    from_name: nameInput.value.trim(),
-                    from_email: emailInput.value.trim(),
-                    subject: subjectInput.value.trim(),
-                    message: messageInput.value.trim(),
-                    to_email: 'hello@bonibytes.com'
+                    name: nameInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    title: subjectInput.value.trim(),
+                    message: messageInput.value.trim()
                 };
 
                 // Send email using EmailJS
                 emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
                     .then(function(response) {
-                        console.log('SUCCESS!', response.status, response.text);
+                        console.log('✅ Email sent successfully!', response.status, response.text);
                         // Show success
                         form.style.display = 'none';
                         formSuccess.classList.add('show');
-                        showToast('Message sent successfully! 🎉', 'success');
+                        showToast('🎉 Message sent successfully!', 'success');
+
                         // Reset form after 5 seconds
                         setTimeout(() => {
                             form.reset();
@@ -2398,7 +2400,7 @@
                         }, 5000);
                     })
                     .catch(function(error) {
-                        console.error('FAILED...', error);
+                        console.error('❌ Failed to send email:', error);
                         showToast('Failed to send message. Please try again.', 'error');
                         // Reset button
                         sendBtn.disabled = false;
@@ -2429,7 +2431,7 @@
             });
 
             // ============================================
-            // PARTICLES
+            // PARTICLES SYSTEM
             // ============================================
             const canvas = document.getElementById('particles-canvas');
             const ctx = canvas.getContext('2d');
@@ -2457,7 +2459,6 @@
                 update() {
                     this.x += this.speedX;
                     this.y += this.speedY;
-
                     if (this.x > canvas.width) this.x = 0;
                     if (this.x < 0) this.x = canvas.width;
                     if (this.y > canvas.height) this.y = 0;
@@ -2482,7 +2483,6 @@
                         const dx = particles[i].x - particles[j].x;
                         const dy = particles[i].y - particles[j].y;
                         const distance = Math.sqrt(dx * dx + dy * dy);
-
                         if (distance < 150) {
                             ctx.strokeStyle = `rgba(37, 99, 235, ${0.1 * (1 - distance / 150)})`;
                             ctx.lineWidth = 1;
@@ -2497,55 +2497,26 @@
 
             function animateParticles() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
-
+                particles.forEach(p => { p.update();
+                    p.draw(); });
                 connectParticles();
                 requestAnimationFrame(animateParticles);
             }
-
             animateParticles();
 
             // ============================================
             // CURSOR GLOW
             // ============================================
             const cursorGlow = document.getElementById('cursor-glow');
-
             document.addEventListener('mousemove', (e) => {
                 cursorGlow.style.left = e.clientX + 'px';
                 cursorGlow.style.top = e.clientY + 'px';
             });
 
-            document.addEventListener('mouseenter', () => {
-                cursorGlow.style.opacity = '1';
-            });
-
-            document.addEventListener('mouseleave', () => {
-                cursorGlow.style.opacity = '0';
-            });
-
-            document.querySelectorAll('.btn-primary, .btn-secondary, .service-card, .project-card, .pricing-card')
-                .forEach(el => {
-                    el.addEventListener('mouseenter', () => {
-                        cursorGlow.style.width = '400px';
-                        cursorGlow.style.height = '400px';
-                        cursorGlow.style.opacity = '0.15';
-                    });
-                    el.addEventListener('mouseleave', () => {
-                        cursorGlow.style.width = '300px';
-                        cursorGlow.style.height = '300px';
-                        cursorGlow.style.opacity = '0.5';
-                    });
-                });
-
             // ============================================
             // NAVBAR SCROLL
             // ============================================
             const navbar = document.getElementById('navbar');
-
             window.addEventListener('scroll', () => {
                 if (window.pageYOffset > 80) {
                     navbar.classList.add('scrolled');
@@ -2558,7 +2529,6 @@
             // SCROLL PROGRESS
             // ============================================
             const scrollProgress = document.getElementById('scrollProgress');
-
             window.addEventListener('scroll', () => {
                 const scrollTop = window.pageYOffset;
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -2595,12 +2565,10 @@
             themeToggle.addEventListener('click', () => {
                 const currentTheme = html.getAttribute('data-theme');
                 const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
                 html.setAttribute('data-theme', newTheme);
                 themeToggle.innerHTML = newTheme === 'dark' ?
                     '<i class="fas fa-moon"></i>' :
                     '<i class="fas fa-sun"></i>';
-
                 localStorage.setItem('theme', newTheme);
             });
 
@@ -2616,7 +2584,6 @@
             // BACK TO TOP
             // ============================================
             const backToTop = document.getElementById('backToTop');
-
             window.addEventListener('scroll', () => {
                 if (window.pageYOffset > 500) {
                     backToTop.classList.add('visible');
@@ -2624,7 +2591,6 @@
                     backToTop.classList.remove('visible');
                 }
             });
-
             backToTop.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
@@ -2636,18 +2602,13 @@
                 anchor.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href');
                     if (targetId === '#') return;
-
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
                         e.preventDefault();
                         const navHeight = document.querySelector('.navbar').offsetHeight;
                         const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset -
                             navHeight;
-
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
-                        });
+                        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                     }
                 });
             });
@@ -2659,11 +2620,9 @@
                 button.addEventListener('click', () => {
                     const item = button.parentElement;
                     const isActive = item.classList.contains('active');
-
                     document.querySelectorAll('.faq-item').forEach(faq => {
                         faq.classList.remove('active');
                     });
-
                     if (!isActive) {
                         item.classList.add('active');
                     }
@@ -2674,7 +2633,6 @@
             // COUNTER ANIMATION
             // ============================================
             const statNumbers = document.querySelectorAll('.stat-number');
-
             const counterObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -2682,9 +2640,6 @@
                         const target = parseInt(el.getAttribute('data-count'));
                         let current = 0;
                         const increment = target / 40;
-                        const duration = 2000;
-                        const stepTime = duration / 40;
-
                         const timer = setInterval(() => {
                             current += increment;
                             if (current >= target) {
@@ -2693,8 +2648,7 @@
                             } else {
                                 el.textContent = Math.floor(current) + '+';
                             }
-                        }, stepTime);
-
+                        }, 50);
                         counterObserver.unobserve(el);
                     }
                 });
@@ -2711,7 +2665,6 @@
             const animateElements = document.querySelectorAll(
                 '.service-card, .project-card, .testimonial-card, .pricing-card'
             );
-
             const scrollObserver = new IntersectionObserver((entries) => {
                 entries.forEach((entry, index) => {
                     if (entry.isIntersecting) {
@@ -2732,9 +2685,8 @@
             });
 
             console.log('🚀 Boni Bytes Edutech - Premium Software Agency');
-            console.log('💡 Built with ❤️ by Boni Bytes Team');
-            console.log('📧 Contact form is ready to send emails!');
-            console.log('⚙️ Configure EmailJS credentials in the script section');
+            console.log('📧 Contact form is ready to send emails via EmailJS!');
+            console.log('⚙️ Make sure to update EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, and EMAILJS_TEMPLATE_ID');
         })();
     </script>
 
